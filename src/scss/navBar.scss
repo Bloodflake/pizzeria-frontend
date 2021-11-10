@@ -1,0 +1,18 @@
+@import "./variable.scss";
+
+.navLogo{
+    height: 35px;
+}
+
+
+
+.navCart{
+    background-color: $primary;
+    display: flex;
+    border-radius: 50px;
+    // height: 1.5rem;
+}
+
+.navText{
+    font-size: small;
+}
