@@ -5,6 +5,8 @@ import Home from "./pages/Home"
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Products from "./pages/Products";
+import SingleProduct from "./pages/SingleProduct";
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
             <Route path ="/cart" element={<Cart/>}></Route>
             <Route path="/login" element={<Login/>}></Route>
             <Route path="/register" element={<Register/>}></Route>
+            <Route path="/products" element={<Products/>}></Route>
+            <Route path="/products/:id" exact element={<SingleProduct/>}></Route>
           </Routes>
       </BrowserRouter>
     </div>
