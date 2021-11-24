@@ -1,11 +1,43 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext} from "react";
 import axios from "axios";
-import MenuItem from "./MenuItem";
+
 import { useNavigate } from "react-router-dom";
+import "../scss/singleItem.scss";
+import { CartContext } from "../pages/CartContext";
+
 export default function Item(props){
     //console.log(props.id);
+    const [isClicked, setIsClicked] = useState(false);
     const [product, setproduct] = useState({});
     const history = useNavigate();
+
+    const {cart, setCart} = useContext(CartContext);
+
+    function addToCart(e, product){
+        let localCart = {...cart};
+
+        if(!localCart.items){
+            localCart.items = {};
+        }
+
+        if(!localCart.items[product._id]){
+            localCart.items[product._id] +=1;
+        }else{
+            localCart.items[product._id] = 1;
+        }
+
+        if(!localCart.totalItems){
+            localCart.totalItems = 0;
+        }
+
+        localCart.totalItems += 1;
+
+        setCart(localCart);
+        setIsClicked(true);
+        setTimeout(()=>{
+            setIsClicked(false);
+        }, 1000);
+    }
 
     useEffect(()=>{
         axios(`/api/singleProduct/${props.id}`).then((res)=>{
@@ -18,12 +50,12 @@ export default function Item(props){
         <div className="container mx-auto mt-12">
             <button className="mb-12 font-bold" onClick={ () => { history(-1)} }>Back</button>
             <div className="flex">
-                <img src="/images/pizza.png" alt="pizza" />
+                <img className="singleItem" src="/images/pizza.png" alt="pizza" />
                 <div className="ml-16">
                     <h1 className="text-xl font-bold">{ product.name }</h1>
                     <div className="text-md">{ product.size }</div>
                     <div className="font-bold mt-2">₹ { product.price }</div>
-                    <button className="bg-yellow-500 py-1 px-8 rounded-full font-bold mt-4">Add to cart</button>
+                    <button onClick={(e)=>{addToCart(e, product)}} className={`${isClicked?`bg-green-500`:`bg-yellow-500`}  px-2 rounded-full font-bold`}>Add{isClicked?'ED':''}</button>
                 </div>
             </div>
         </div>

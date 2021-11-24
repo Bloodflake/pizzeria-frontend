@@ -7,12 +7,27 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Products from "./pages/Products";
 import SingleProduct from "./pages/SingleProduct";
+import {CartContext} from "./pages/CartContext";
+import {useState, useEffect} from "react";
 
 function App() {
+  const [cart, setCart] = useState({});
+
+  useEffect(()=>{
+    const cart = window.localStorage.getItem('cart');
+    setCart(JSON.parse(cart));
+  }, []);
+
+  useEffect(()=>{
+    window.localStorage.setItem("cart", JSON.stringify(cart));
+    // console.log("cart updated", cart);
+  }, [cart]);
+
   return (
     <div>
       <BrowserRouter>
-        <Navbar/>
+        <CartContext.Provider value={{cart, setCart}}>
+          <Navbar/>
           <Routes>
             <Route path ="/" element={<Home/>}></Route>
             <Route path ="/cart" element={<Cart/>}></Route>
@@ -21,6 +36,7 @@ function App() {
             <Route path="/products" element={<Products/>}></Route>
             <Route path="/products/:id" exact element={<SingleProduct/>}></Route>
           </Routes>
+        </CartContext.Provider>
       </BrowserRouter>
     </div>
   );

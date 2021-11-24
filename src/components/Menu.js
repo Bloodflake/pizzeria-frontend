@@ -1,11 +1,14 @@
 import "../scss/menu.scss";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import MenuItem from "./MenuItem";
 import axios from "axios";
+import { CartContext } from "../pages/CartContext";
+
 
 export default function Menu(){
+
     const [products, setMenu] = useState([]);
-    
+
     useEffect(()=>{
         //console.log("component mounted");
 
