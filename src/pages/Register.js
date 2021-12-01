@@ -2,7 +2,7 @@ import {Link} from "react-router-dom";
 
 export default function Register(){
     return(
-        <section className="login flex justify-center">
+        <section className="pt-32 login flex justify-center">
             <div className="w-full max-w-xs">
                 <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <div className="mb-4">

@@ -1,5 +1,13 @@
 @import "./variable.scss";
 
+
+#navBar{
+    background-color: #ededed;
+}
+
+#navBar.container{
+    width: 100%;
+}
 .navLogo{
     height: 35px;
 }

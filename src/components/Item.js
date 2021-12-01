@@ -21,9 +21,9 @@ export default function Item(props){
         }
 
         if(!localCart.items[product._id]){
-            localCart.items[product._id] +=1;
+            localCart.items[product._id] =1;
         }else{
-            localCart.items[product._id] = 1;
+            localCart.items[product._id] += 1;
         }
 
         if(!localCart.totalItems){
@@ -44,10 +44,10 @@ export default function Item(props){
             //console.log(res.data[0]);
             setproduct(res.data[0]);
         })
-    }, [props._id]);
+    }, [props.id]);
 
     return(
-        <div className="container mx-auto mt-12">
+        <div className="container mx-auto pt-32">
             <button className="mb-12 font-bold" onClick={ () => { history(-1)} }>Back</button>
             <div className="flex">
                 <img className="singleItem" src="/images/pizza.png" alt="pizza" />
@@ -55,7 +55,7 @@ export default function Item(props){
                     <h1 className="text-xl font-bold">{ product.name }</h1>
                     <div className="text-md">{ product.size }</div>
                     <div className="font-bold mt-2">₹ { product.price }</div>
-                    <button onClick={(e)=>{addToCart(e, product)}} className={`${isClicked?`bg-green-500`:`bg-yellow-500`}  px-2 rounded-full font-bold`}>Add{isClicked?'ED':''}</button>
+                    <button disabled={isClicked} onClick={(e)=>{addToCart(e, product)}} className={`${isClicked?`bg-green-500`:`bg-yellow-500`}  px-2 rounded-full font-bold`}>Add{isClicked?'ED':''}</button>
                 </div>
             </div>
         </div>

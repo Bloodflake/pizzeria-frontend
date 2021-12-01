@@ -7,7 +7,7 @@ export default function Navbar(){
     const {cart} = useContext(CartContext);
 
     let totalItems = 0;
-    if(cart.totalItems){
+    if(cart && cart.totalItems){
         totalItems = cart.totalItems;
     }
 
@@ -20,7 +20,7 @@ export default function Navbar(){
     };
 
     return (
-        <nav className= "container mx-auto flex items-center justify-between py-4 bg-white shadow-lg fixed left-0 right-0">
+        <nav className= "container flex items-center justify-between p-4 bg-white shadow-lg fixed left-0 right-0" id="navBar">
             <Link to ="/">
                 <img className="navLogo" src="/images/logo.png" alt="logo"/>
             </Link>
@@ -30,7 +30,7 @@ export default function Navbar(){
                 <li className="ml-4 navText"><Link to="/register">Register</Link></li>
                 <li className="ml-4">
                     <Link to="/cart">
-                        <div className="navCart">
+                        <div className="navCart pl-1">
                             <ItemNumberDisplay/>
                             <img className="ml-1 mr-2" src="/images/cart.png" alt="cart"></img>
                         </div>

@@ -1,53 +1,109 @@
+import { CartContext } from "./CartContext";
+import { useContext, useState, useEffect} from "react";
+import axios from "axios";
+
 export default function Cart(){
+    let total = 0;
+    const [products, setProducts] = useState([]);
+    const {cart, setCart} = useContext(CartContext);
+    const [fetchedProducts, setFetchedProducts] = useState(false);
+
+    
+
+    useEffect(()=>{
+
+        if(!cart || !cart.items){
+            return;
+        }
+
+        if(fetchedProducts){
+            return;
+        }
+
+        // console.log("cart", cart);
+        let items = {items : Object.keys(cart.items)};
+        axios
+          .post("/api/getProducts", items)
+          .then(res =>{
+              setProducts(res.data);
+              setFetchedProducts(true);
+            //   console.log("products", products);
+          })
+          .catch(err => console.error(err));
+    }, [cart, fetchedProducts]);
+
+
+    function incrementProduct(e, id){
+        let _cart = {...cart};
+        _cart.items[id]++;
+        _cart.totalItems++;
+
+        setCart(_cart);
+    }
+
+    function decrementProduct(e, id){
+        let _cart = {...cart};
+        if(_cart.items[id] === 1){
+            return;
+        }
+
+        _cart.items[id]--;
+        _cart.totalItems--;
+        setCart(_cart);
+    }
+
+    function getPrice(price, id){
+        let numberOfItems = cart.items[id];
+
+        let sum = price * numberOfItems;
+        total += sum;
+        return sum;
+    }
+
+    function deleteProduct(id){
+        let _cart = {...cart};
+        console.log(_cart);
+        let qty = _cart.items[id];
+        delete _cart.items[id];
+        console.log(_cart);
+        _cart.totalItems -= qty;
+        setCart(_cart);
+        let updatedProducts = products.filter((product)=>product._id !== id);
+        setProducts(updatedProducts);
+    }
+
     return (
-        <section className="container mx-auto">
-            <div className=" mx-auto py-2">
-                <div className="flex items-center border-b border-gray-300">
-                    <img src="./images/cart-black.png" alt="cart"></img>
-                    <h1 className="font-bold ml-4 text-2xl">Order Summar</h1>
+        !products.length? <img className="mx-auto w-1/4 pt-24" src="./images/empty-cart.png" alt="" />:
+        <div className="container mx-auto lg:w-1/2 w-full pt-16 pb-4">
+            <h1 className="my-6 font-bold">Cart Items</h1>
+            <ul>   
+                {products.map((product)=>{
+                    return (
+                        <li className="mb-8" key={product._id}>
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center">
+                                    <img className="h-16" src="./images/peproni.png" alt="Pizza"/>
+                                    <span className="font-bold ml-4 w-48">{product.name}</span>
+                                </div>
+                                <div>
+                                    <button onClick={(e)=>{decrementProduct(e, product._id)}} className="bg-yellow-500 px-4 py-2 rounded-full leading-none">-</button>
+                                    <b className="px-4">{cart.items[product._id]}</b>
+                                    <button onClick={(e)=>{incrementProduct(e, product._id)}} className="bg-yellow-500 px-4 py-2 rounded-full leading-none">+</button>
+                                </div>
+                                <span>₹ {getPrice(product.price, product._id)}</span>
+                                <button onClick={()=>{deleteProduct(product._id)}} className="bg-red-500 px-4 py-2 rounded-full leading-none text-white">Delete</button>
+                            </div>
+                        </li>
+                    )
+                })}
+                <hr className="my-6"/>
+                <div className="text-right">
+                    <b>Grand Total:</b> ₹{total}
                 </div>
-            </div>
-            <div className="mx-auto my-4">
-                <div className="flex items-center">
-                    <img className="w-16" src="./images/pizza.png" alt="pizza"></img>
-                    <div className="flex-1 ml-2">
-                        <h1>Pizza</h1>
-                        <span>MEDIUM</span>
-                    </div>
-                    <span className="flex-1">1 Pcs</span>
-                    <span className="font-bold">Rs 300</span>
+                <div className="text-right mt-6">
+                    <button className="bg-yellow-500 px-4 py-2 rounded-full leading-none">Order Now</button>
                 </div>
-            </div>
-            <hr></hr>
-            <div className="text-right py-4">
-                <div>
-                    <span className="text-lg font-bold">Total Amount</span>
-                    <span className="text-2xl font-bold ml-4">Rs 300</span>
-                </div>
-                <div>
-                    <form className="mx-6">
-                        <ul>
-                            <li><input className="border border-gray-400 p-2 w-1/2" type="text" placeholder="Phone No."></input></li>
-                            <li><input className="border border-gray-400 p-2 w-1/2 mt-4" type="text" placeholder="Address."></input></li>
-                            {/* <li><button className="mx-4 px-6 py-2 rounded-full text-white font-bold mt-4 bg-yellow-500 hover:bg-yellow-600">Order Now</button></li> */}
-                        </ul>
-                    </form>
-                </div>
-                <div className="mt-6">
-                    <a href="./login" className="px-6 py-2 rounded-full text-white font-bold mt-4 bg-yellow-500 hover:bg-yellow-600">Login to continue</a>
-                </div>
-            </div>
-            {/* <div className="py-16">
-                <div className="container mx-auto text-center">
-                    <h1 className="text-3xl font-bold mb-2">Cart Empty</h1>
-                    <p className="text-gray-500 text-lg mb-12">You probably haven't ordered a pizza yet
-                    <br></br>
-                    To order a pizza, go to main page.
-                    </p>
-                    <img className="w-2/5 mx-auto pb-8" src="./images/empty-cart.png" alt="empty-cart" alt="empty-cart"></img>
-                    <a className="px-6 py-2 rounded-full text-white font-bold mt-4 bg-yellow-500 hover:bg-yellow-600" href="/">Go back</a>
-                </div>  
-            </div> */}
-        </section>
+            </ul> 
+        </div>
     )
 }
