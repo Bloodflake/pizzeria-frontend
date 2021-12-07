@@ -1,0 +1,7 @@
+Error handling in login, register, logout
+Remove access to login, register while loggedin
+Remove access to logout while not loggedin
+cart option to login or order depending upon logged in status
+client side form validation in login and register page
+design admin page
+design order functionality 

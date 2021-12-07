@@ -1,7 +1,8 @@
 import { useState, useContext} from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import { CartContext } from "./CartContext";
+
 
 export default function Login(){
     const [formData, setFormData] = useState({
@@ -10,6 +11,8 @@ export default function Login(){
     })
 
     const {authToken, setAuthToken} = useContext(CartContext);
+
+    const navigate = useNavigate();
 
     function handleChange(e){
         setFormData({
@@ -32,6 +35,7 @@ export default function Login(){
             }
 
             setAuthToken(_localToken);
+            navigate("/");
           })
           .catch(err => console.error(err.response.data.message));
 

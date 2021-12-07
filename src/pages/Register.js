@@ -1,4 +1,4 @@
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import { CartContext } from "./CartContext";
 import { useContext, useState, useEffect } from "react";
@@ -14,6 +14,7 @@ export default function Register(){
 
     const {authToken, setAuthToken} = useContext(CartContext);
     
+    const navigate = useNavigate();
 
     function handleFormSubmit(e){
         e.preventDefault();
@@ -28,6 +29,9 @@ export default function Register(){
             }
 
             setAuthToken(_localToken);
+
+            navigate("/");
+
           })
           .catch((err) => console.log("error: ",err.response.data.message));
 

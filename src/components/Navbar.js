@@ -28,7 +28,7 @@ export default function Navbar(){
                 <li className="navText"><Link to="/">Menu</Link></li>
                 {authToken.auth === "" && <li className="ml-4 navText"><Link to="/login">Login</Link></li>}
                 {authToken.auth === "" && <li className="ml-4 navText"><Link to="/register">Register</Link></li>}
-                {authToken.auth !== "" && <li className="ml-4 navText"><Link to="/">Logout</Link></li>}
+                {authToken.auth !== "" && <li className="ml-4 navText"><Link to="/logout">Logout</Link></li>}
                 <li className="ml-4">
                     <Link to="/cart">
                         <div className="navCart pl-1">
