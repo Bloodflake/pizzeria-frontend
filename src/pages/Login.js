@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { useState, useContext} from "react";
 import {Link} from "react-router-dom";
+import axios from "axios";
+import { CartContext } from "./CartContext";
 
 export default function Login(){
     const [formData, setFormData] = useState({
         email: "",
         password: ""
     })
+
+    const {authToken, setAuthToken} = useContext(CartContext);
 
     function handleChange(e){
         setFormData({
@@ -16,7 +20,22 @@ export default function Login(){
 
     function handleFormSubmit(e){
         e.preventDefault();
-        console.log("login", formData);
+        //console.log("login", formData);
+
+        axios
+          .post("/api/login", formData)
+          .then(res => {
+            console.log("request sent to sever",res)
+            const _localToken ={
+                auth: res.data.access_token,
+                refresh: res.data.refresh_token
+            }
+
+            setAuthToken(_localToken);
+          })
+          .catch(err => console.error(err.response.data.message));
+
+
         setFormData({
             email:"",
             password:""

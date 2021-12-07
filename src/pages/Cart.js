@@ -63,9 +63,11 @@ export default function Cart(){
     function deleteProduct(id){
         let _cart = {...cart};
         console.log(_cart);
+
         let qty = _cart.items[id];
         delete _cart.items[id];
         console.log(_cart);
+        
         _cart.totalItems -= qty;
         setCart(_cart);
         let updatedProducts = products.filter((product)=>product._id !== id);

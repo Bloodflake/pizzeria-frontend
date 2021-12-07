@@ -1,6 +1,7 @@
-import { useState } from "react";
 import {Link} from "react-router-dom";
 import axios from "axios";
+import { CartContext } from "./CartContext";
+import { useContext, useState, useEffect } from "react";
 
 export default function Register(){
     const [formData, setFormData] = useState({
@@ -9,14 +10,26 @@ export default function Register(){
         password:""
     });
 
+    const [error, setError] = useState("");
+
+    const {authToken, setAuthToken} = useContext(CartContext);
+    
+
     function handleFormSubmit(e){
         e.preventDefault();
-        console.log("rigistered", formData);
         
         axios
           .post("/api/register", formData)
-          .then(res => console.log("request sent to sever",res))
-          .catch(err => console.error(err));
+          .then((res) => {
+            console.log("request sent to sever",res)
+            const _localToken ={
+                auth: res.data.access_token,
+                refresh: res.data.refresh_token
+            }
+
+            setAuthToken(_localToken);
+          })
+          .catch((err) => console.log("error: ",err.response.data.message));
 
         setFormData({
             name:"",

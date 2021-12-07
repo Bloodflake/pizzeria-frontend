@@ -4,8 +4,8 @@ import { useContext } from "react";
 
 import "../scss/navBar.scss";
 export default function Navbar(){
-    const {cart} = useContext(CartContext);
-
+    const {cart, authToken} = useContext(CartContext);
+    
     let totalItems = 0;
     if(cart && cart.totalItems){
         totalItems = cart.totalItems;
@@ -26,8 +26,9 @@ export default function Navbar(){
             </Link>
             <ul className="flex items-centre">
                 <li className="navText"><Link to="/">Menu</Link></li>
-                <li className="ml-4 navText"><Link to="/login">Login</Link></li>
-                <li className="ml-4 navText"><Link to="/register">Register</Link></li>
+                {authToken.auth === "" && <li className="ml-4 navText"><Link to="/login">Login</Link></li>}
+                {authToken.auth === "" && <li className="ml-4 navText"><Link to="/register">Register</Link></li>}
+                {authToken.auth !== "" && <li className="ml-4 navText"><Link to="/">Logout</Link></li>}
                 <li className="ml-4">
                     <Link to="/cart">
                         <div className="navCart pl-1">
