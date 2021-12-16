@@ -48,7 +48,7 @@ export default function Item(props){
 
     return(
         <div className="container mx-auto pt-32">
-            <button className="mb-12 font-bold" onClick={ () => { history(-1)} }>Back</button>
+            <button className="mb-12 font-bold bg-yellow-500 px-4 py-2 rounded-full leading-none" onClick={ () => { history(-1)} }>Back</button>
             <div className="flex">
                 <img className="singleItem" src="/images/pizza.png" alt="pizza" />
                 <div className="ml-16">

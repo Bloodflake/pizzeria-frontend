@@ -8,8 +8,11 @@ import Register from "./pages/Register";
 import Logout from "./pages/Logout";
 import Products from "./pages/Products";
 import SingleProduct from "./pages/SingleProduct";
+import Admin from "./pages/Admin"
 import {CartContext} from "./pages/CartContext";
 import {useState, useEffect} from "react";
+import MyOrders from "./pages/MyOrders";
+import SingleOrder from "./pages/SingleOrder";
 
 function App() {
   const [cart, setCart] = useState({});
@@ -51,7 +54,7 @@ function App() {
 
 
   useEffect(()=>{
-    console.log("obtaining token from local storage", authToken);
+    //console.log("obtaining token from local storage", authToken);
     window.localStorage.setItem("authToken", JSON.stringify(authToken));
   }, [authToken]);
 
@@ -66,6 +69,9 @@ function App() {
             <Route path="/login" element={<Login/>}></Route>
             <Route path="/register" element={<Register/>}></Route>
             <Route path="/logout" element={<Logout/>}></Route>
+            <Route path="/myOrders" element={<MyOrders/>}></Route>
+            <Route path="/myOrders/:id" exact element={<SingleOrder/>}></Route>
+            <Route path="/admin" element={<Admin/>}></Route>
             <Route path="/products" element={<Products/>}></Route>
             <Route path="/products/:id" exact element={<SingleProduct/>}></Route>
           </Routes>

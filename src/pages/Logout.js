@@ -1,12 +1,12 @@
 import axios from "axios"
 import {useNavigate} from "react-router-dom"
 import { CartContext } from "./CartContext";
-import { useState, useContext, useEffect} from "react";
+import { useContext, useEffect} from "react";
 
 export default function Logout(){
     const navigate = useNavigate();
 
-    const {authToken, setAuthToken} = useContext(CartContext);
+    const {authToken, setAuthToken, setCart} = useContext(CartContext);
 
     useEffect(()=>{
         console.log("logging out")
@@ -22,10 +22,11 @@ export default function Logout(){
                 refresh:""
             })
 
+            setCart({})
             navigate("/");
           })
           .catch(err => console.error(err));
-    }, []);
+    }, [authToken.auth, authToken.refresh, navigate, setAuthToken, setCart]);
     return(
         <>
             <h1 className="pt-32">Logging out</h1>

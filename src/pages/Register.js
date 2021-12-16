@@ -1,7 +1,7 @@
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import { CartContext } from "./CartContext";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 
 export default function Register(){
     const [formData, setFormData] = useState({
@@ -10,9 +10,9 @@ export default function Register(){
         password:""
     });
 
-    const [error, setError] = useState("");
+    // const [error, setError] = useState("");
 
-    const {authToken, setAuthToken} = useContext(CartContext);
+    const {setAuthToken} = useContext(CartContext);
     
     const navigate = useNavigate();
 

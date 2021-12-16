@@ -10,7 +10,7 @@ export default function Login(){
         password: ""
     })
 
-    const {authToken, setAuthToken} = useContext(CartContext);
+    const {setAuthToken} = useContext(CartContext);
 
     const navigate = useNavigate();
 

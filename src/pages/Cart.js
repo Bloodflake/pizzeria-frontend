@@ -1,14 +1,15 @@
 import { CartContext } from "./CartContext";
 import { useContext, useState, useEffect} from "react";
 import axios from "axios";
+import {Link, useNavigate} from "react-router-dom"
 
 export default function Cart(){
     let total = 0;
     const [products, setProducts] = useState([]);
     const {cart, setCart} = useContext(CartContext);
     const [fetchedProducts, setFetchedProducts] = useState(false);
-
-    
+    const {authToken} = useContext(CartContext);
+    const navigate = useNavigate();
 
     useEffect(()=>{
 
@@ -74,6 +75,20 @@ export default function Cart(){
         setProducts(updatedProducts);
     }
 
+    function order(){
+        console.log(cart, total)
+        axios
+          .post("/api/order", {cart, total}, {headers:{
+            "authorization": "Bearer " + authToken.auth
+        }})
+          .then(res =>{
+              console.log(res)
+              setProducts([])
+              setCart({})
+              navigate("/myOrders")
+          })
+          .catch(err => console.error(err));
+    }
     return (
         !products.length? <img className="mx-auto w-1/4 pt-24" src="./images/empty-cart.png" alt="" />:
         <div className="container mx-auto lg:w-1/2 w-full pt-16 pb-4">
@@ -102,9 +117,12 @@ export default function Cart(){
                 <div className="text-right">
                     <b>Grand Total:</b> ₹{total}
                 </div>
-                <div className="text-right mt-6">
-                    <button className="bg-yellow-500 px-4 py-2 rounded-full leading-none">Order Now</button>
-                </div>
+                {authToken.auth === "" && <div className="text-right mt-6">
+                    <Link to="/login"><button className="bg-yellow-500 px-4 py-2 rounded-full leading-none">Login to order</button></Link>
+                </div>}
+                {authToken.auth !== "" && <div className="text-right mt-6">
+                    <button onClick={order} className="bg-yellow-500 px-4 py-2 rounded-full leading-none">Order Now</button>
+                </div>}
             </ul> 
         </div>
     )
