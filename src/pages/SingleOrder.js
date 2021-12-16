@@ -31,6 +31,7 @@ export default function SingleOrder(){
     useEffect(()=>{
         const newSocket = io("/");
         setSocket(newSocket);
+
         return () => newSocket.close();
     }, [setSocket])
 
@@ -63,8 +64,10 @@ export default function SingleOrder(){
             <div className="container mx-auto flex items-center justify-between pt-32">
                 <div className="mx-auto">
                     <button className="mb-12 font-bold bg-yellow-500 px-4 py-2 rounded-full leading-none" onClick={ () => { navigate(-1)} }>Back</button>
-                    <h1 className="font-bold text-lg mb-4">Order Id: {id}</h1>
-                    <h1 className="font-bold text-lg mb-4">Total Amount: {order.total_amount}</h1>
+                    <div class="flex items-center justify-between mb-12">
+                        <h1 className="font-bold text-lg mb-4">Total Amount: {order.total_amount}</h1>
+                        <h6 class="bg-white py-1 rounded-full px-4 text-green-600 text-xs">{id}</h6>
+                    </div>
                     <h1 className="font-bold text-md mb-4">Created At: {date.toDateString()} {date.toTimeString()}</h1>
                     <table className="w-full table-auto bg-white">
                         <thead>
@@ -80,7 +83,7 @@ export default function SingleOrder(){
                     </table>
                 </div>
             </div>
-            <OrderStatus order={order}/>
+            {socket?(<OrderStatus order={order} socket={socket} setOrder={setOrder}/>): (<></>)}
             </div>)
     }else{
         return(<div></div>)

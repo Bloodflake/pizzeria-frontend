@@ -8,13 +8,15 @@ export default function MyOrders(){
     const [orderList, setOrderList] = useState([]);
     const {authToken} = useContext(CartContext);
     useEffect(()=>{
-        axios
-          .get("/api/myOrders", {headers:{"authorization": "Bearer " + authToken.auth}})
-          .then(res => {
-            // console.log(res)
-            setOrderList(res.data)
-          })
-          .catch(err => console.error(err));
+        if(authToken.auth !== ""){
+            axios
+            .get("/api/myOrders", {headers:{"authorization": "Bearer " + authToken.auth}})
+            .then(res => {
+                // console.log(res)
+                setOrderList(res.data)
+            })
+            .catch(err => console.error(err));
+        }
     }, [authToken])
 
     // useEffect(()=>{
