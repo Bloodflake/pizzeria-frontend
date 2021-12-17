@@ -2,11 +2,14 @@ import axios from "axios";
 import {useState, useEffect, useContext} from "react";
 import AdminTable from "../components/AdminTable";
 import { CartContext } from "./CartContext";
+import { io } from "socket.io-client";
 
 export default function Admin(){
 
     const [orders, setOrders] = useState([]);
     const {authToken} = useContext(CartContext);
+    const [socket, setSocket] = useState();
+    const [flag, setFlag] = useState(false);
 
     useEffect(()=>{
         //console.log("admin mounted", authToken)
@@ -16,6 +19,7 @@ export default function Admin(){
 
         // return ()=>clearInterval(interval)
         if(authToken.auth !== ""){
+            //console.log("fetch orders")
             axios
             .get("/api/admin/order",{headers:{"authorization": "Bearer " + authToken.auth}})
             .then(res => {
@@ -25,9 +29,26 @@ export default function Admin(){
             .catch(err => console.error(err));
         }
 
-    }, [authToken])
+    }, [authToken, flag])
+
+    useEffect(()=>{
+        const newSocket = io("/");
+        setSocket(newSocket);
+
+        return () => newSocket.close();
+    }, [setSocket])
 
 
+    useEffect(()=>{
+        if(socket){
+            socket.emit("adminJoin", "adminRoom");
+            socket.on("newOrder", (data)=>{
+                //console.log(data)
+                // setOrders(localOrders);
+                setFlag(!flag);
+            })
+        }
+    }, [socket, flag])
 
     function OrderRow(){
         return orders.map((ele)=>{

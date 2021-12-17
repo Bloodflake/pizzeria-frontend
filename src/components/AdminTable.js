@@ -33,7 +33,7 @@ export default function AdminTable(props){
             "authorization": "Bearer " + authToken.auth
         }})
           .then(res => {
-              console.log("order status updated ", res);
+            //   console.log("order status updated ", res);
           })
           .catch(err =>{
             console.error("error",err)

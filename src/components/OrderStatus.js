@@ -8,15 +8,15 @@ export default function OrderStatus(props){
         props.socket.emit("join", `${props.order._id}`)
 
         props.socket.on("orderUpdated", (data)=>{
-            console.log("socket reply from server", data)
+            //console.log("socket reply from server", data)
             let localOrder = {...props.order};
             localOrder.status = data;
-            console.log(localOrder)
+            //console.log(localOrder)
             props.setOrder(localOrder)
         });
 
 
-    }, [props.socket])
+    }, [props])
 
     return (
         <section className="container mx-auto flex items-center justify-between py-8">
