@@ -13,6 +13,7 @@ import {CartContext} from "./pages/CartContext";
 import {useState, useEffect} from "react";
 import MyOrders from "./pages/MyOrders";
 import SingleOrder from "./pages/SingleOrder";
+import Spinner from "./components/Spinner";
 
 function App() {
   const [cart, setCart] = useState({});
@@ -74,6 +75,7 @@ function App() {
             <Route path="/admin" element={<Admin/>}></Route>
             <Route path="/products" element={<Products/>}></Route>
             <Route path="/products/:id" exact element={<SingleProduct/>}></Route>
+            {/* <Route path="/test" element={<Spinner/>}></Route> */}
           </Routes>
         </CartContext.Provider>
       </BrowserRouter>

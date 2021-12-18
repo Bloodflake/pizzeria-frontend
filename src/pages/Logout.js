@@ -1,35 +1,59 @@
 import axios from "axios"
 import {useNavigate} from "react-router-dom"
 import { CartContext } from "./CartContext";
-import { useContext, useEffect} from "react";
+import { useState,useContext, useEffect} from "react";
+import Spinner from "../components/Spinner"
+
 
 export default function Logout(){
     const navigate = useNavigate();
-
+    const [loading, setloading] = useState(undefined);
+    const [errorMsg, setErrorMsg] = useState("");
     const {authToken, setAuthToken, setCart} = useContext(CartContext);
 
     useEffect(()=>{
-        console.log("logging out")
-        axios
-          .post("/api/logout", {refresh_token: authToken.refresh}, {headers:{
-              "authorization": "Bearer " + authToken.auth
-          }})
-          .then(res => {
-            console.log(res)
+        // console.log("logging out")
+        async function logout(){
+            await setloading("loading");
+            if(authToken.refresh !== ""){
+                axios
+                .post("/api/logout", {refresh_token: authToken.refresh}, {headers:{
+                    "authorization": "Bearer " + authToken.auth
+                }})
+                .then(res => {
+                    console.log(res)
 
-            setAuthToken({
-                auth:"",
-                refresh:""
-            })
+                    setloading(undefined);
 
-            setCart({})
-            navigate("/");
-          })
-          .catch(err => console.error(err));
+                    setAuthToken({
+                        auth:"",
+                        refresh:""
+                    })
+
+                    setCart({})
+                    navigate("/");
+                })
+                .catch(err =>{
+                    console.error(err);
+                    setErrorMsg(err.response.data.message);
+                    setTimeout(()=>{
+                        navigate("/");
+                    }, 5000);
+                    setloading(undefined);
+                });
+            }
+        }
+
+        logout();
     }, [authToken.auth, authToken.refresh, navigate, setAuthToken, setCart]);
     return(
         <>
-            <h1 className="pt-32">Logging out</h1>
+            {loading?<Spinner/>:
+            <div className="component">
+                <section className="pt-32 login flex justify-center">
+                    <h1 className="text-red-500 text-sm">{errorMsg}! redirecting you...</h1>
+                </section>
+            </div>}
         </>
     )
 }

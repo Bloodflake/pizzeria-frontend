@@ -1,14 +1,11 @@
-Error handling in login, register, logout
+
 Remove access to login, register while loggedin
 Remove access to logout while not loggedin
-cart option to login or order depending upon logged in status
+
 client side form validation in login and register page
-design admin page
-design order functionality 
-auto fetch order detail for admin
+
 adding notification for action like status update , item added to cart , loggedin, and logout
 
 
 
-create socket.io in backend transmit socket object using app.set emmit event from functions two evet one for admin orders and one for personal order
  

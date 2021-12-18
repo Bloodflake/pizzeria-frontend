@@ -2,6 +2,7 @@ import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import { CartContext } from "./CartContext";
 import { useContext, useState } from "react";
+import Spinner from "../components/Spinner"
 
 export default function Register(){
     const [formData, setFormData] = useState({
@@ -10,15 +11,17 @@ export default function Register(){
         password:""
     });
 
-    // const [error, setError] = useState("");
+    const [errorMsg, setErrorMsg] = useState("");
+    const [loading, setloading] = useState(undefined);
 
     const {setAuthToken} = useContext(CartContext);
     
     const navigate = useNavigate();
 
-    function handleFormSubmit(e){
+    async function handleFormSubmit(e){
         e.preventDefault();
-        
+        await setloading("loading");
+
         axios
           .post("/api/register", formData)
           .then((res) => {
@@ -29,11 +32,15 @@ export default function Register(){
             }
 
             setAuthToken(_localToken);
-
+            setloading(undefined);
             navigate("/");
 
           })
-          .catch((err) => console.log("error: ",err.response.data.message));
+          .catch((err) =>{
+            console.log("error: ",err.response.data.message);
+            setloading(undefined);
+            setErrorMsg(err.response.data.message)
+          });
 
         setFormData({
             name:"",
@@ -43,6 +50,7 @@ export default function Register(){
     }
 
     function handleChange(e){
+        setErrorMsg("")
         setFormData({
             ...formData,
             [e.target.name] : e.target.value
@@ -50,10 +58,12 @@ export default function Register(){
     }
 
     return(
+        <>
+        {loading?<Spinner/>:
         <section className="pt-32 login flex justify-center">
             <div className="w-full max-w-xs">
                 <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleFormSubmit}>
-
+                    {errorMsg && <span class="text-red-500 text-sm">{errorMsg}</span>}
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
                             Name
@@ -86,6 +96,7 @@ export default function Register(){
 
                 </form>
             </div>
-        </section>
+        </section>}
+        </>
     )
 }
