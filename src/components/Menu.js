@@ -23,7 +23,7 @@ export default function Menu(){
     return (
         <div className="container mx-auto">
             <h1 className="text-lg font-bold">Products</h1>
-            <div className="grid grid-cols-4 my-8 gap-24">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 my-8 gap-24">
                 {products.map(ele => {
                     return <MenuItem key={ele._id} product={ele}/>
                 })}  

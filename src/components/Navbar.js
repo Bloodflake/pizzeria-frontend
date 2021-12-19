@@ -20,7 +20,7 @@ export default function Navbar(){
     };
 
     return (
-        <nav className= "container flex items-center justify-between p-4 bg-white shadow-lg fixed left-0 right-0 z-40" id="navBar">
+        <nav className= "flex items-center justify-between p-4 bg-white shadow-lg fixed left-0 right-0 z-40" id="navBar">
             <Link to ="/">
                 <img className="navLogo" src="/images/logo.png" alt="logo"/>
             </Link>
@@ -30,7 +30,7 @@ export default function Navbar(){
                 {authToken.auth === "" && <li className="ml-4 navText"><Link to="/register">Register</Link></li>}
                 {authToken.auth !== "" && <li className="ml-4 navText"><Link to="/logout">Logout</Link></li>}
                 {authToken.auth !== "" && <li className="ml-4 navText"><Link to="/myOrders">MyOrders</Link></li>}
-                {authToken.auth !== "" && <li className="ml-4 navText"><Link to="/admin">Admin</Link></li>}
+                {/* {authToken.auth !== "" && <li className="ml-4 navText"><Link to="/admin">Admin</Link></li>} */}
                 <li className="ml-4">
                     <Link to="/cart">
                         <div className="navCart pl-1">

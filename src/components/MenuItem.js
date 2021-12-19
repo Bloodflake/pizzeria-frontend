@@ -43,7 +43,7 @@ export default function MenuItem(props){
     return(
             <div>
                 <Link to={"/products/" + props.product._id}>
-                    <img className="menuImage" src="/images/pizza.png" alt="menu"></img>
+                    <img className="menuImage mx-auto" src="/images/pizza.png" alt="menu"></img>
                     <div className="text-center">
                         <h2 className="text-lg font-bold py-2">{props.product.name}</h2>
                         <span className="bg-gray-200 py-1 rounded-full text-sm px-4">{props.product.size}</span>

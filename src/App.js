@@ -13,7 +13,10 @@ import {CartContext} from "./pages/CartContext";
 import {useState, useEffect} from "react";
 import MyOrders from "./pages/MyOrders";
 import SingleOrder from "./pages/SingleOrder";
+import GuardedRoute from "./components/GuardedRoute";
 import Spinner from "./components/Spinner";
+import GuardedAdminRoute from "./components/GuardedAdminRoute";
+import PageNotFound from "./pages/PageNotFound"
 
 function App() {
   const [cart, setCart] = useState({});
@@ -65,17 +68,18 @@ function App() {
         <CartContext.Provider value={{cart, setCart, authToken, setAuthToken}}>
           <Navbar/>
           <Routes>
-            <Route path ="/" element={<Home/>}></Route>
-            <Route path ="/cart" element={<Cart/>}></Route>
-            <Route path="/login" element={<Login/>}></Route>
-            <Route path="/register" element={<Register/>}></Route>
-            <Route path="/logout" element={<Logout/>}></Route>
-            <Route path="/myOrders" element={<MyOrders/>}></Route>
-            <Route path="/myOrders/:id" exact element={<SingleOrder/>}></Route>
-            <Route path="/admin" element={<Admin/>}></Route>
-            <Route path="/products" element={<Products/>}></Route>
+            <Route path ="/"  exact element={<Home/>}></Route>
+            <Route path ="/cart"  exact element={<Cart/>}></Route>
+            <Route path="/login"  exact element={<GuardedRoute component={Login} auth={false}/>}></Route>
+            <Route path="/register"  exact element={<GuardedRoute component={Register} auth={false}/>}></Route>
+            <Route path="/logout" exact  element={<GuardedRoute component={Logout} auth={true}/>}></Route>
+            <Route path="/myOrders" exact  element={<GuardedRoute component={MyOrders} auth={true}/>}></Route>
+            <Route path="/myOrders/:id" exact element={<GuardedRoute component={SingleOrder} auth={true}/>}></Route>
+            {/* <Route path="/admin" element={<Admin/>}></Route> */}
+            <Route path="/admin" exact  element={<GuardedAdminRoute/>}></Route>
+            <Route path="/products" exact  element={<Products/>}></Route>
             <Route path="/products/:id" exact element={<SingleProduct/>}></Route>
-            {/* <Route path="/test" element={<Spinner/>}></Route> */}
+            <Route path="*" element={<PageNotFound/>}></Route>
           </Routes>
         </CartContext.Provider>
       </BrowserRouter>

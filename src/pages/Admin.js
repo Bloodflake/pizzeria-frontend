@@ -5,11 +5,12 @@ import { CartContext } from "./CartContext";
 import { io } from "socket.io-client";
 
 export default function Admin(){
-
+    console.log("in admin")
     const [orders, setOrders] = useState([]);
     const {authToken} = useContext(CartContext);
     const [socket, setSocket] = useState();
     const [flag, setFlag] = useState(false);
+    const [errorMsg, setErrorMsg] = useState(undefined);
 
     useEffect(()=>{
         //console.log("admin mounted", authToken)

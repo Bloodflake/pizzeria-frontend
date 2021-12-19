@@ -1,11 +1,7 @@
 
-Remove access to login, register while loggedin
-Remove access to logout while not loggedin
 
 client side form validation in login and register page
 
 adding notification for action like status update , item added to cart , loggedin, and logout
-
-
 
  
