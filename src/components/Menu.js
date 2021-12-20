@@ -9,12 +9,12 @@ export default function Menu(){
     const [products, setMenu] = useState([]);
 
     useEffect(()=>{
-        //console.log("component mounted");
+        console.log("menu mounted");
 
-        axios("/api/getMenu").then(res=>{
-            //console.log(res.data);
+        axios("https://pizzeria-sumit90990.herokuapp.com/api/getMenu").then(res=>{
+            console.log(res.data);
             setMenu(res.data);
-        });
+        }).catch((err)=>console.log(err));
 
     }, []);
 

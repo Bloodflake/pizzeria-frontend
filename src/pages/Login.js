@@ -32,7 +32,7 @@ export default function Login(){
         await setloading("loading");
         // await setTimeout(()=>{}, 3000);
         axios
-          .post("/api/login", formData)
+          .post("https://pizzeria-sumit90990.herokuapp.com/api/login", formData)
           .then(res => {
             console.log("request sent to sever",res)
             const _localToken ={

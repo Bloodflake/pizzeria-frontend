@@ -10,7 +10,7 @@ export default function MyOrders(){
     useEffect(()=>{
         if(authToken.auth !== ""){
             axios
-            .get("/api/myOrders", {headers:{"authorization": "Bearer " + authToken.auth}})
+            .get("https://pizzeria-sumit90990.herokuapp.com/api/myOrders", {headers:{"authorization": "Bearer " + authToken.auth}})
             .then(res => {
                 // console.log(res)
                 setOrderList(res.data)

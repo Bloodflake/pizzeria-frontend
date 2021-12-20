@@ -29,7 +29,7 @@ export default function AdminTable(props){
         //console.log("event", e.target.value)
         setStatus(e.target.value);
         axios
-          .post("/api/admin/order", {orderid: props.order._id, status: e.target.value}, {headers:{
+          .post("https://pizzeria-sumit90990.herokuapp.com/api/admin/order", {orderid: props.order._id, status: e.target.value}, {headers:{
             "authorization": "Bearer " + authToken.auth
         }})
           .then(res => {

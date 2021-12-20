@@ -24,7 +24,7 @@ export default function Cart(){
         // console.log("cart", cart);
         let items = {items : Object.keys(cart.items)};
         axios
-          .post("/api/getProducts", items)
+          .post("https://pizzeria-sumit90990.herokuapp.com/api/getProducts", items)
           .then(res =>{
               setProducts(res.data);
               setFetchedProducts(true);
@@ -78,7 +78,7 @@ export default function Cart(){
     function order(){
         console.log(cart, total)
         axios
-          .post("/api/order", {cart, total}, {headers:{
+          .post("https://pizzeria-sumit90990.herokuapp.com/api/order", {cart, total}, {headers:{
             "authorization": "Bearer " + authToken.auth
         }})
           .then(res =>{
