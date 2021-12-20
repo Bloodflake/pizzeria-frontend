@@ -17,7 +17,7 @@ export default function SingleOrder(){
     useEffect(()=>{
         if(authToken.auth !== ""){
             axios
-          .get("/api/getOrder", { headers:{"authorization": "Bearer " + authToken.auth},params: { id} })
+          .get("https://pizzeria-sumit90990.herokuapp.com/api/getOrder", { headers:{"authorization": "Bearer " + authToken.auth},params: { id} })
           .then(res => {
             // console.log("res ", res);
             setOrder(res.data[0])
@@ -29,7 +29,7 @@ export default function SingleOrder(){
 
 
     useEffect(()=>{
-        const newSocket = io("/");
+        const newSocket = io("https://pizzeria-sumit90990.herokuapp.com");
         setSocket(newSocket);
 
         return () => newSocket.close();

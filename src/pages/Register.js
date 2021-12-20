@@ -23,7 +23,7 @@ export default function Register(){
         await setloading("loading");
 
         axios
-          .post("/api/register", formData)
+          .post("https://pizzeria-sumit90990.herokuapp.com/api/register", formData)
           .then((res) => {
             console.log("request sent to sever",res)
             const _localToken ={

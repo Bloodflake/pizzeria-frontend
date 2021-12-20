@@ -17,7 +17,7 @@ export default function Logout(){
             await setloading("loading");
             if(authToken.refresh !== ""){
                 axios
-                .post("/api/logout", {refresh_token: authToken.refresh}, {headers:{
+                .post("https://pizzeria-sumit90990.herokuapp.com/api/logout", {refresh_token: authToken.refresh}, {headers:{
                     "authorization": "Bearer " + authToken.auth
                 }})
                 .then(res => {

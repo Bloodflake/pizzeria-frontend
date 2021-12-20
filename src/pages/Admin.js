@@ -22,7 +22,7 @@ export default function Admin(){
         if(authToken.auth !== ""){
             //console.log("fetch orders")
             axios
-            .get("/api/admin/order",{headers:{"authorization": "Bearer " + authToken.auth}})
+            .get("https://pizzeria-sumit90990.herokuapp.com/api/admin/order",{headers:{"authorization": "Bearer " + authToken.auth}})
             .then(res => {
                 //console.log(res.data)
                 setOrders(res.data)
@@ -33,7 +33,7 @@ export default function Admin(){
     }, [authToken, flag])
 
     useEffect(()=>{
-        const newSocket = io("/");
+        const newSocket = io("https://pizzeria-sumit90990.herokuapp.com");
         setSocket(newSocket);
 
         return () => newSocket.close();

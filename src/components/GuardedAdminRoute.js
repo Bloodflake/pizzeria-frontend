@@ -12,7 +12,7 @@ export default function GuardedAdminRoute(){
         async function admin(){
             if(authToken.auth !== ""){
                 await axios
-                  .get("/api/isAdmin", {headers:{"authorization": "Bearer " + authToken.auth}})
+                  .get("https://pizzeria-sumit90990.herokuapp.com/api/isAdmin", {headers:{"authorization": "Bearer " + authToken.auth}})
                   .then(res =>{
                       console.log(res);
                       async function isAdmin(){
