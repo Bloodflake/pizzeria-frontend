@@ -40,7 +40,7 @@ export default function Item(props){
     }
 
     useEffect(()=>{
-        axios(`https://pizzeria-sumit90990.herokuapp.coms/api/singleProduct/${props.id}`).then((res)=>{
+        axios(`https://pizzeria-sumit90990.herokuapp.com/api/singleProduct/${props.id}`).then((res)=>{
             //console.log(res.data[0]);
             setproduct(res.data[0]);
         })
